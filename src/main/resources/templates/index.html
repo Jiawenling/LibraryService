@@ -7,11 +7,14 @@
   <body>
   
   <h1>Find a book!</h1>
-  <form action="/library" method = "post" th:value="${searchTerm}">
+  <form action="/results" method = "post" th:value="${searchTerm}">
     <input type="text" name = "searchTerm" id = "searchTerm" placeholder="Please key in Title or Author's name">
     <button type = "submit">Search</button>
 
-    <div th:if="${searchTerm!=null}">
+
+    <h2 th:text="${message}"></h2>
+
+    <div th:if="${searchResults!=null}">
       <h2>Your search results:</h2>
       <h3 th:each="t:${searchResults}">
         <h3 th:text="${t.getTitle()}"></h3>
@@ -19,7 +22,7 @@
       </h3>
       <h4>Limit page results:</h4>
       <input type="text" name = "pageLimit" id = "pageLimit">
-      <button type = "submit" formmethod="post" formaction="/Library">Show Results</button>
+      <button type = "submit" formmethod="post" formaction="/library/filered">Show Results</button>
     </div>
 
 

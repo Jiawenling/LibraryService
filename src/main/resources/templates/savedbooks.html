@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Saved Books</title>
+</head>
+<body th:object ="${book}" th:value="${author}" >
+
+
+<form action="#">
+
+    <h2>Your books has been saved:</h2>
+    <h3 th:text="${book.title}"></h3>
+    <h3 th:text="${book.id}"></h3>
+    <h3 th:text="${author.name}"></h3>
+
+</form>
+
+
+
+<button type="submit" formaction="/library/savebooks" formmethod="post">Save another book</button>
+</body>
+</html>

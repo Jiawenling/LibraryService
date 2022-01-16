@@ -7,7 +7,7 @@
 <body>
 <h1>Save a book:</h1>
 <form
-        th:action="@{/}"
+        th:action="@{/saved}"
         th:object="${book}"
         method="post"
 >
@@ -22,8 +22,8 @@
     </p>
     <br />
     <p>
-        Phone number:
-        <input type="text" th:field="*{author.name}" />
+        Author name:
+        <input type="text" th:value="${author.name}" />
     </p>
     <br />
     <p>
