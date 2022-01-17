@@ -1,6 +1,12 @@
 package com.example.Revision15.config;
 
 //import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import com.example.Revision15.Constants;
+import org.apache.catalina.Manager;
+import org.springframework.cache.annotation.CachingConfigurerSupport;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.data.redis.cache.RedisCacheManager;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
@@ -22,7 +28,7 @@ import org.springframework.data.redis.connection.jedis.JedisClientConfiguration;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 
 @Configuration
-public class RedisConfig {
+public class RedisConfig{
         private static final Logger logger = LoggerFactory.getLogger(RedisConfig.class);
     
         @Value("${spring.redis.host}") 
@@ -31,14 +37,23 @@ public class RedisConfig {
         @Value("${spring.redis.port}") 
         private Integer redisPort;
 
-        @Value("${spring.redis.password}") 
         private String redisPassword;
+
+//        @Bean
+//        public RedisCacheManager cacheManager(){
+//                RedisCacheManager redisCacheManager = new RedisCacheManager(redisTemplate());
+//                redisCacheManager.setTransactionAware(true);
+//                redisCacheManager.setLoadRemoteCacheOnStartup(true);
+//
+//        }
+
         
         @Bean
         @Scope("singleton")
         public RedisTemplate<String, Object> redisTemplate(){
                 final RedisStandaloneConfiguration config 
                         = new RedisStandaloneConfiguration();
+                redisPassword = System.getenv(Constants.ENV_REDIS_KEY);
                 config.setHostName(redisHost);
                 config.setPort(redisPort);
                 config.setPassword(redisPassword);
@@ -50,11 +65,10 @@ public class RedisConfig {
                         
                 RedisTemplate<String, Object> template = new RedisTemplate<>();
                 template.setConnectionFactory(jedisFac);
+//                template.setExposeConnection(true);
                 template.setKeySerializer(new StringRedisSerializer()); 
-                RedisSerializer<Object> serializer = new JdkSerializationRedisSerializer(getClass().getClassLoader());
-                template.setValueSerializer(
-                        serializer
-                );
+//                RedisSerializer<Object> serializer = new JdkSerializationRedisSerializer(getClass().getClassLoader());
+                template.setValueSerializer(new StringRedisSerializer());
                 return template;
         }
 }

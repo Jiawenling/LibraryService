@@ -31,8 +31,6 @@ public class LibraryController {
         Author author = new Author();
         model.addAttribute("author", author);
         model.addAttribute("book",book );
-
-
         return  "savebook";
     }
 
@@ -45,7 +43,9 @@ public class LibraryController {
         logger.info("Author: "+ book.getAuthor().getName());
         libsvc.save(book.getId(),book);
         logger.info("book has been saved");
-        return "savebook";
+        model.addAttribute("book", book);
+        model.addAttribute("author",author);
+        return "savedbooks";
     }
 
 
