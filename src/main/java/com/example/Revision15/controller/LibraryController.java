@@ -31,7 +31,7 @@ public class LibraryController {
         Author author = new Author();
         model.addAttribute("author", author);
         model.addAttribute("book",book );
-        book.setAuthor(author);
+
 
         return  "savebook";
     }
@@ -41,7 +41,8 @@ public class LibraryController {
         logger.info("Book title: "+ book.getTitle());
         logger.info("Book id: "+ book.getId());
         logger.info("Author object: "+ author.name);
-        logger.info("Author: "+ book.getAuthor().name);
+        book.setAuthor(author);
+        logger.info("Author: "+ book.getAuthor().getName());
         libsvc.save(book.getId(),book);
         logger.info("book has been saved");
         return "savebook";
@@ -55,8 +56,8 @@ public class LibraryController {
         List<Books> searchResults = new ArrayList<>(libsvc.findBySearchTerm(searchTerm));
         if(!searchResults.isEmpty()){
             model.addAttribute("searchResults",searchResults);
-        }
-        model.addAttribute("message","No search results");
+        } else{
+        model.addAttribute("message","No search results");}
 
         return  "index";
     }

@@ -22,6 +22,8 @@ public class LibraryRedis {
                 .collect(Collectors.toList());
     }
 
+
+
     public void save(String id, Books book){
         redisTemplate.opsForHash().put(Constants.LIBRARY, book.getId(), book);
     }
